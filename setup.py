@@ -4,7 +4,7 @@
 from setuptools import setup
 
 setup(name='anipics',
-      version='1.0',
+      version='1.1',
       description='Simple module for getting anime pictures',
       packages=['anipics'],
       author_email='D4n13l3k00@yandex.ru',

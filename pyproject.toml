@@ -4,6 +4,7 @@ requires = [
     "wheel",
     "bs4",
     "requests",
-    "pydantic"
+    "pydantic",
+    "aioify"
 ]
 build-backend = "setuptools.build_meta"
