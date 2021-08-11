@@ -27,7 +27,7 @@ class Parser:
                 url=requests.get(
                     f"https://nekos.life/api/v2/img/{query}").json()['url']
             )
-    
+
     class AnimeApiHisoka:
         class types:
             class SFW:
@@ -40,6 +40,7 @@ class Parser:
                 cuddle = "cuddle"
                 punch = "punch"
                 waifu = "waifu"
+
             class NSFW:
                 hentai = "hentai"
                 boobs = "boobs"

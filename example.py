@@ -3,8 +3,8 @@
 
 import asyncio
 
-from anipics import Parser
-from anipics import asyncParser
+from anipics import Parser, asyncParser
+
 
 def sync_example():
     nk = Parser.NekosLife
@@ -13,6 +13,7 @@ def sync_example():
     print(ap.get().url)
     aah = Parser.AnimeApiHisoka
     print(aah.get(aah.types.SFW.slap).url)
+
 
 async def async_example():
     nk = asyncParser.NekosLife
