@@ -1,0 +1,5 @@
+dist/
+anipics.egg-info/
+anipics/__pycache__/
+.vscode/
+.pypicrc
