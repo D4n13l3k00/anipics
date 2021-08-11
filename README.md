@@ -13,14 +13,4 @@
 
 ### Usage:
 
-```python
-from anipics.parser import Parser
-
-nk = Parser.NekosLife
-
-print(nk.get(nk.types.neko).url)
-
-ap = Parser.AniPics
-
-print(ap.get().url)
-```
+Example of usage [here](/example.py)
