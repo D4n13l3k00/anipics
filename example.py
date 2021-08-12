@@ -1,5 +1,5 @@
 # Copyright 2021 D4n13l3k00.
-# SPDX-License-Identifier: 	AGPL-3.0-or-later
+# SPDX-License-Identifier:  AGPL-3.0-or-later
 
 import asyncio
 
@@ -8,7 +8,7 @@ from anipics import Parser, asyncParser
 
 def sync_example():
     nk = Parser.NekosLife
-    print(nk.get(nk.types.neko).url)
+    print(nk.get(nk.types.spank).url)
     ap = Parser.AniPics
     print(ap.get().url)
     aah = Parser.AnimeApiHisoka
