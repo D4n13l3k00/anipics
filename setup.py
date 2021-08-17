@@ -7,7 +7,7 @@ with open("README.md", "r") as fh:
 	long_description = fh.read()
 
 setup(name='anipics',
-      version='1.3',
+      version='1.4',
       description='Simple module for getting anime pictures',
       long_description=long_description,
       long_description_content_type="text/markdown",

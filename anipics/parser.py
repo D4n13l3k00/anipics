@@ -10,7 +10,7 @@ from .models import Models
 
 class _types:
     NekosLifeType = NewType('NekosLifeType', str)
-    AnimeApiHisokaType = NewType('NekosLifeType', str)
+    AnimeApiHisokaType = NewType('AnimeApiHisokaType', str)
 
 class Parser:
     class NekosLife:
@@ -113,7 +113,7 @@ class Parser:
                 lesbian: _types.AnimeApiHisokaType = "lesbian"
 
         def get(query: Union[_types.AnimeApiHisokaType, str], nsfw: bool = False) -> Union[Models.Result, Coroutine[None, None, Models.Result]]:
-            """Get picture from nime-api.hisoka17.repl.co
+            """Get picture from anime-api.hisoka17.repl.co
 
             Args:
                 query (AnimeApiHisokaType): See Parser/asyncParser.AnimeApiHisoka.types

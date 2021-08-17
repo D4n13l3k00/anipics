@@ -12,7 +12,7 @@ def sync_example():
     ap = Parser.AniPics
     print(ap.get().url)
     aah = Parser.AnimeApiHisoka
-    print(aah.get(aah.types.SFW.slap).url)
+    print(aah.get(aah.types.SFW.waifu).url)
 
 
 async def async_example():
@@ -21,7 +21,7 @@ async def async_example():
     ap = asyncParser.AniPics
     print((await ap.get()).url)
     aah = asyncParser.AnimeApiHisoka
-    print((await aah.get(aah.types.NSFW.hentai, True)).url)
+    print((await aah.get(aah.types.SFW.waifu, True)).url)
 
 
 if __name__ == '__main__':
