@@ -127,7 +127,7 @@ class Parser:
             )
 
     class AniPics:
-        def get() -> Union[Models.Result, Coroutine[None, None, Models.Result]]:
+        def get(self) -> Union[Models.Result, Coroutine[None, None, Models.Result]]:
             """Get picture from animepicsx.net
 
             Returns:
