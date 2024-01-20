@@ -35,7 +35,7 @@ class NekosLife:
         """Get picture from nekos.life
 
         Args:
-            query (NekosLifeType): See Parser/asyncParser.NekosLife.types
+            query (NekosLifeType): NekosLife.Types.{type} or str
 
         Returns:
             Models.Result
@@ -49,7 +49,7 @@ class NekosLife:
         """Get picture from nekos.life
 
         Args:
-            query (NekosLifeType): See Parser/asyncParser.NekosLife.types
+            query (NekosLifeType): NekosLife.Types.{type} or str
 
         Returns:
             Models.Result

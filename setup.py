@@ -8,7 +8,7 @@ with open("README.md", "r") as fh:
 
 setup(
     name="anipics",
-    version="1.5",
+    version="1.5.1",
     description="Simple module for getting anime pictures",
     long_description=long_description,
     long_description_content_type="text/markdown",
