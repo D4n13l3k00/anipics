@@ -1,16 +1,34 @@
-<!--
- Copyright 2021 D4n13l3k00.
- SPDX-License-Identifier: 	AGPL-3.0-or-later
--->
+<div align='center'>
 
 # Anipics
 
-## Simple module for getting anime pictures
 
-### Installation:
 
-`pip install anipics`
+![PyPI - Downloads](https://img.shields.io/pypi/dm/anipics)
+![PyPI - Python Version](https://img.shields.io/pypi/pyversions/anipics)
+![PyPI - Format](https://img.shields.io/pypi/format/anipics)
 
-### Usage:
+![GitHub License](https://img.shields.io/github/license/D4n13l3k00/anipics)
+![GitHub Release](https://img.shields.io/github/v/release/D4n13l3k00/anipics)
 
-Example of usage [here](/example.py)
+## 🖼 Simple module to get anime pictures
+
+</div>
+
+### 📥 Installation
+
+```shell
+# pip
+$ pip install anipics
+
+# poetry
+$ poetry add anipics
+```
+
+### 🔑 Usage
+
+You can see an example of use [here](/examples/)
+
+### 📝 License
+
+This project is under [AGPL-3.0 license](/LICENSE)
