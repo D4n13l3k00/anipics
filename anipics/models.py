@@ -1,7 +1,5 @@
-# Copyright 2021 D4n13l3k00.
+# Copyright 2024 Daniel <D4n13l3k00@yandex.ru>.
 # SPDX-License-Identifier:  AGPL-3.0-or-later
-
-from typing import *
 
 from pydantic import BaseModel
 

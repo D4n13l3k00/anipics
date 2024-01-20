@@ -1,5 +1,8 @@
 dist/
-anipics.egg-info/
-anipics/__pycache__/
+__pycache__/
 .vscode/
+.venv/
+.ruff_cache/
+.pytest_cache/
+
 .pypicrc
