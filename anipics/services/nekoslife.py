@@ -1,3 +1,6 @@
+# Copyright 2024 Daniel <D4n13l3k00@yandex.ru>.
+# SPDX-License-Identifier: AGPL-3.0
+
 from typing import NewType, Union
 
 import httpx
@@ -35,10 +38,10 @@ class NekosLife:
         """Get picture from nekos.life
 
         Args:
-            query (NekosLifeType): NekosLife.Types.{type} or str
+            query (Union[NekosLifeType, str]): Category of image
 
         Returns:
-            Models.Result
+            Models.Result: Model with `url` parameter
         """
         with httpx.Client() as client:
             return Models.Result(
@@ -49,10 +52,10 @@ class NekosLife:
         """Get picture from nekos.life
 
         Args:
-            query (NekosLifeType): NekosLife.Types.{type} or str
+            query (Union[NekosLifeType, str]): Category of image
 
         Returns:
-            Models.Result
+            Models.Result: Model with `url` parameter
         """
         async with httpx.AsyncClient() as client:
             return Models.Result(

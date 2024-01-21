@@ -1,4 +1,8 @@
-__all__ = ["AniPics", "NekosLife"]
+# Copyright 2024 Daniel <D4n13l3k00@yandex.ru>.
+# SPDX-License-Identifier: AGPL-3.0
 
-from .anipics import AniPics
+__all__ = ["AnimePicsX", "NekosLife", "WaifuPics"]
+
+from .animepicsx import AnimePicsX
 from .nekoslife import NekosLife
+from .waifupics import WaifuPics

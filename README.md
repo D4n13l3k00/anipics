@@ -2,8 +2,6 @@
 
 # Anipics
 
-
-
 ![PyPI - Downloads](https://img.shields.io/pypi/dm/anipics)
 ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/anipics)
 ![PyPI - Format](https://img.shields.io/pypi/format/anipics)
@@ -28,6 +26,12 @@ $ poetry add anipics
 ### 🔑 Usage
 
 You can see an example of use [here](/examples/)
+
+### Available services
+
+- AnimePicsX
+- NekosLife
+- WaifuPics
 
 ### 📝 License
 
