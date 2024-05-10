@@ -11,6 +11,8 @@ NekosLifeType = NewType("NekosLifeType", str)
 
 
 class NekosLife:
+    ENDPOINT = "https://nekos.life/api/v2/img/{query}"
+
     class Types:
         wallpaper: NekosLifeType = "wallpaper"
         ngif: NekosLifeType = "ngif"
@@ -45,7 +47,7 @@ class NekosLife:
         """
         with httpx.Client() as client:
             return Models.Result(
-                url=client.get(f"https://nekos.life/api/v2/img/{query}").json()["url"]
+                url=client.get(self.ENDPOINT.format(query=query)).json()["url"]
             )
 
     async def async_get(self, query: Union[NekosLifeType, str]) -> Models.Result:
@@ -59,7 +61,5 @@ class NekosLife:
         """
         async with httpx.AsyncClient() as client:
             return Models.Result(
-                url=(await client.get(f"https://nekos.life/api/v2/img/{query}")).json()[
-                    "url"
-                ]
+                url=(await client.get(self.ENDPOINT.format(query=query))).json()["url"]
             )

@@ -11,6 +11,8 @@ WaifuPicsType = NewType("WaifuPicsSFWType", str)
 
 
 class WaifuPics:
+    ENDPOINT = "https://api.waifu.pics/{_type}/{query}"
+
     class Types:
         class SFW:
             waifu: WaifuPicsType = "waifu"
@@ -64,7 +66,9 @@ class WaifuPics:
         _type = "nsfw" if nsfw else "sfw"
         with httpx.Client() as client:
             return Models.Result(
-                url=client.get(f"https://api.waifu.pics/{_type}/{query}").json()["url"]
+                url=client.get(self.ENDPOINT.format(_type=_type, query=query)).json()[
+                    "url"
+                ]
             )
 
     async def async_get(
@@ -83,6 +87,6 @@ class WaifuPics:
         async with httpx.AsyncClient() as client:
             return Models.Result(
                 url=(
-                    await client.get(f"https://api.waifu.pics/{_type}/{query}")
+                    await client.get(self.ENDPOINT.format(_type=_type, query=query))
                 ).json()["url"]
             )

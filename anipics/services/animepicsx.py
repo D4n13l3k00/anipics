@@ -8,6 +8,8 @@ from anipics.models import Models
 
 
 class AnimePicsX:
+    ENDPOINT = "https://animepicsx.net/random"
+
     def get(self) -> Models.Result:
         """Get picture from animepicsx.net
 
@@ -16,9 +18,9 @@ class AnimePicsX:
         """
         with httpx.Client() as client:
             return Models.Result(
-                url=BeautifulSoup(
-                    client.get("https://animepicsx.net/random").text, "html.parser"
-                ).find("img")["src"]
+                url=BeautifulSoup(client.get(self.ENDPOINT).text, "html.parser").find(
+                    "img"
+                )["src"]
             )
 
     async def async_get(self) -> Models.Result:
@@ -30,7 +32,7 @@ class AnimePicsX:
         async with httpx.AsyncClient() as client:
             return Models.Result(
                 url=BeautifulSoup(
-                    (await client.get("https://animepicsx.net/random")).text,
+                    (await client.get(self.ENDPOINT)).text,
                     "html.parser",
                 ).find("img")["src"]
             )

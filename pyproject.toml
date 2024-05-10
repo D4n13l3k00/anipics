@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "anipics"
-version = "1.5.2"
+version = "1.5.3"
 description = "Simple module to get anime pictures"
 authors = ["Daniel <D4n13l3k00@yandex.ru>"]
 readme = "README.md"

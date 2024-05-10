@@ -25,7 +25,7 @@ $ poetry add anipics
 
 ### 🔑 Usage
 
-You can see an example of use [here](/examples/)
+You can see an example of use [here](/examples)
 
 ### Available services
 
