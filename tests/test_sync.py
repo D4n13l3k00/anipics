@@ -13,9 +13,9 @@ def test_nekoslife():
 
 
 def test_waifupics():
-    assert isinstance(WaifuPics().get(WaifuPics.Types.SFW.hug, False), Models.Result)
+    assert isinstance(WaifuPics().get(WaifuPics.Types.SFW.hug), Models.Result)
     assert isinstance(
-        WaifuPics().get(WaifuPics.Types.NSFW.blowjob, True), Models.Result
+        WaifuPics().get(WaifuPics.Types.NSFW.blowjob), Models.Result
     )
 
 

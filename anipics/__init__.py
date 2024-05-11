@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: AGPL-3.0
 
 __author__ = "Daniel <D4n13l3k00@yandex.ru>"
-__version__ = "1.5.4"
+__version__ = "1.5.5"
 
 __all__ = ["AnimePicsX", "NekosLife", "WaifuPics", "PurrBot", "Models"]
 

@@ -21,10 +21,10 @@ async def test_nekoslife():
 @pytest.mark.asyncio
 async def test_waifupics():
     assert isinstance(
-        await WaifuPics().async_get(WaifuPics.Types.SFW.hug, False), Models.Result
+        await WaifuPics().async_get(WaifuPics.Types.SFW.hug), Models.Result
     )
     assert isinstance(
-        await WaifuPics().async_get(WaifuPics.Types.NSFW.blowjob, True), Models.Result
+        await WaifuPics().async_get(WaifuPics.Types.NSFW.blowjob), Models.Result
     )
 
 

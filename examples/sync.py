@@ -17,10 +17,10 @@ def main():
     print(nl.get(NekosLife.Types.avatar).url)
 
     print("WaifuPics SFW:")
-    print(wp.get(WaifuPics.Types.SFW.hug, False).url)
+    print(wp.get(WaifuPics.Types.SFW.hug).url)
 
     print("WaifuPics NSFW:")
-    print(wp.get(WaifuPics.Types.NSFW.blowjob, True).url)
+    print(wp.get(WaifuPics.Types.NSFW.blowjob).url)
 
     print("PurrBot SFW:")
     print(pb.get(PurrBot.Types.SFW.GIF.neko).url)

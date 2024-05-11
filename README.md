@@ -32,6 +32,7 @@ You can see an example of use [here](/examples)
 - AnimePicsX
 - NekosLife
 - WaifuPics
+- PurrBot
 
 ### 📝 License
 

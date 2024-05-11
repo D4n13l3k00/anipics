@@ -19,10 +19,10 @@ async def main():
     print((await nl.async_get(NekosLife.Types.avatar)).url)
 
     print("WaifuPics SFW:")
-    print((await wp.async_get(WaifuPics.Types.SFW.hug, False)).url)
+    print((await wp.async_get(WaifuPics.Types.SFW.hug)).url)
 
     print("WaifuPics NSFW:")
-    print((await wp.async_get(WaifuPics.Types.NSFW.blowjob, True)).url)
+    print((await wp.async_get(WaifuPics.Types.NSFW.blowjob)).url)
 
     print("PurrBot SFW:")
     print((await pb.async_get(PurrBot.Types.SFW.GIF.neko)).url)
