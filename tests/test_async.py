@@ -3,7 +3,7 @@
 
 import pytest
 
-from anipics import AnimePicsX, Models, NekosLife, WaifuPics
+from anipics import AnimePicsX, Models, NekosLife, WaifuPics, PurrBot
 
 
 @pytest.mark.asyncio
@@ -25,4 +25,14 @@ async def test_waifupics():
     )
     assert isinstance(
         await WaifuPics().async_get(WaifuPics.Types.NSFW.blowjob, True), Models.Result
+    )
+
+
+@pytest.mark.asyncio
+async def test_purrbot():
+    assert isinstance(
+        await PurrBot().async_get(PurrBot.Types.SFW.GIF.neko), Models.Result
+    )
+    assert isinstance(
+        await PurrBot().async_get(PurrBot.Types.NSFW.GIF.anal), Models.Result
     )
