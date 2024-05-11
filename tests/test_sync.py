@@ -5,24 +5,38 @@ from anipics import AnimePicsX, Models, NekosLife, WaifuPics, PurrBot
 
 
 def test_animepicsx():
-    assert isinstance(AnimePicsX().get(), Models.Result)
+    result = AnimePicsX().get()
+    assert isinstance(result, Models.Result)
+    assert result.url
 
 
 def test_nekoslife():
-    assert isinstance(NekosLife().get(NekosLife.Types.avatar), Models.Result)
+    result = NekosLife().get(NekosLife.Types.avatar)
+    assert isinstance(result, Models.Result)
+    assert result.url
 
 
 def test_waifupics():
-    assert isinstance(WaifuPics().get(WaifuPics.Types.SFW.hug), Models.Result)
+    result = WaifuPics().get(WaifuPics.Types.SFW.hug)
+    assert isinstance(result, Models.Result)
+    assert result.url
+
+    result = WaifuPics().get(WaifuPics.Types.NSFW.blowjob)
     assert isinstance(
-        WaifuPics().get(WaifuPics.Types.NSFW.blowjob), Models.Result
+        result, Models.Result
     )
+    assert result.url
 
 
 def test_purrbot():
+    result = PurrBot().get(PurrBot.Types.SFW.GIF.neko)
     assert isinstance(
-        PurrBot().get(PurrBot.Types.SFW.GIF.neko), Models.Result
+        result, Models.Result
     )
+    assert result.url
+
+    result = PurrBot().get(PurrBot.Types.NSFW.GIF.anal)
     assert isinstance(
-        PurrBot().get(PurrBot.Types.NSFW.GIF.anal), Models.Result
+        result, Models.Result
     )
+    assert result.url
