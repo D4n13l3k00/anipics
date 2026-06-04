@@ -1,17 +1,13 @@
-# Copyright 2024 Daniel <D4n13l3k00@yandex.ru>.
-# SPDX-License-Identifier: AGPL-3.0
-
-from typing import NewType, Union
-
-import httpx
+from typing import TypeAlias
 
 from anipics.models import Models
+from anipics.services._http import async_get_json, get_json
 
-PurrBotType = NewType("PurrBotType", str)
+PurrBotType: TypeAlias = str
 
 
 class PurrBot:
-    ENDPOINT = "https://purrbot.site/api/img/{path}"
+    ENDPOINT = "https://api.purrbot.site/v2/img/{path}"
 
     class Types:
         class SFW:
@@ -114,32 +110,28 @@ class PurrBot:
 
             class IMG:
                 # GET /img/nsfw/neko/{type}
-                neko: PurrBotType = "/img/nsfw/neko/img"
+                neko: PurrBotType = "nsfw/neko/img"
 
-    def get(self, query: Union[PurrBotType, str]) -> Models.Result:
-        """Get picture from nekos.life
+    def get(self, query: PurrBotType) -> Models.Result:
+        """Get picture from purrbot.site
 
         Args:
-            query (Union[PurrBotType, str]): Category of image
+            query (PurrBotType): Category of image
 
         Returns:
             Models.Result: Model with `url` parameter
         """
-        with httpx.Client() as client:
-            return Models.Result(
-                url=client.get(self.ENDPOINT.format(path=query)).json()["link"]
-            )
+        data = get_json(self.ENDPOINT.format(path=query))
+        return Models.Result(url=data["link"])
 
-    async def async_get(self, query: Union[PurrBotType, str]) -> Models.Result:
-        """Get picture from nekos.life
+    async def async_get(self, query: PurrBotType) -> Models.Result:
+        """Get picture from purrbot.site
 
         Args:
-            query (Union[PurrBotType, str]): Category of image
+            query (PurrBotType): Category of image
 
         Returns:
             Models.Result: Model with `url` parameter
         """
-        async with httpx.AsyncClient() as client:
-            return Models.Result(
-                url=(await client.get(self.ENDPOINT.format(path=query))).json()["link"]
-            )
+        data = await async_get_json(self.ENDPOINT.format(path=query))
+        return Models.Result(url=data["link"])

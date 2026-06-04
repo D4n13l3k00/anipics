@@ -1,9 +1,16 @@
-# Copyright 2024 Daniel <D4n13l3k00@yandex.ru>.
-# SPDX-License-Identifier: AGPL-3.0
+__all__ = [
+    "EscapedQuery",
+    "NekosAPI",
+    "NekosBest",
+    "NekosLife",
+    "Nekosia",
+    "PurrBot",
+    "WaifuIm",
+]
 
-__all__ = ["AnimePicsX", "NekosLife", "WaifuPics", "PurrBot"]
-
-from .animepicsx import AnimePicsX
+from .nekosapi import EscapedQuery, NekosAPI
+from .nekosbest import NekosBest
+from .nekosia import Nekosia
 from .nekoslife import NekosLife
 from .purrbot import PurrBot
-from .waifupics import WaifuPics
+from .waifuim import WaifuIm

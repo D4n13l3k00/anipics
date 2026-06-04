@@ -1,26 +1,47 @@
-# Copyright 2024 Daniel <D4n13l3k00@yandex.ru>.
-# SPDX-License-Identifier: AGPL-3.0
-
-from anipics import AnimePicsX, NekosLife, WaifuPics, PurrBot
+from anipics import NekosAPI, NekosBest, Nekosia, NekosLife, PurrBot, WaifuIm
 
 
 def main():
-    ap = AnimePicsX()
+    na = NekosAPI()
+    nb = NekosBest()
     nl = NekosLife()
-    wp = WaifuPics()
+    ns = Nekosia()
     pb = PurrBot()
+    wi = WaifuIm()
 
-    print("AnimePicsX:")
-    print(ap.get().url)
+    print("NekosAPI random:")
+    print(na.get(NekosAPI.Types.kemonomimi).url)
+
+    print("NekosAPI metadata:")
+    image = na.get_random_image(tags=[NekosAPI.Types.girl])
+    print(image.id, image.url)
+
+    print("NekosBest:")
+    print(nb.get(NekosBest.Types.hug).url)
+
+    print("NekosBest categories:")
+    print(", ".join(list(nb.get_endpoints())[:5]))
 
     print("NekosLife:")
     print(nl.get(NekosLife.Types.avatar).url)
 
-    print("WaifuPics SFW:")
-    print(wp.get(WaifuPics.Types.SFW.hug).url)
+    print("Nekosia:")
+    print(ns.get(Nekosia.Types.catgirl).url)
 
-    print("WaifuPics NSFW:")
-    print(wp.get(WaifuPics.Types.NSFW.blowjob).url)
+    print("Nekosia main categories:")
+    print(", ".join(Nekosia.MAIN_CATEGORIES[:5]))
+
+    print("WaifuIm filtered:")
+    print(
+        wi.get(
+            [WaifuIm.Types.waifu],
+            excluded_tags=[WaifuIm.Types.uniform],
+            is_nsfw=WaifuIm.Nsfw.false,
+        ).url
+    )
+
+    print("WaifuIm tags:")
+    print(", ".join(WaifuIm.TAGS[:5]))
 
     print("PurrBot SFW:")
     print(pb.get(PurrBot.Types.SFW.GIF.neko).url)

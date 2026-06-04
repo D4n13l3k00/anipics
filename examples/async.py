@@ -1,28 +1,51 @@
-# Copyright 2024 Daniel <D4n13l3k00@yandex.ru>.
-# SPDX-License-Identifier: AGPL-3.0
-
 import asyncio
 
-from anipics import AnimePicsX, NekosLife, WaifuPics, PurrBot
+from anipics import NekosAPI, NekosBest, Nekosia, NekosLife, PurrBot, WaifuIm
 
 
 async def main():
-    ap = AnimePicsX()
+    na = NekosAPI()
+    nb = NekosBest()
     nl = NekosLife()
-    wp = WaifuPics()
+    ns = Nekosia()
     pb = PurrBot()
+    wi = WaifuIm()
 
-    print("AnimePicsX:")
-    print((await ap.async_get()).url)
+    print("NekosAPI random:")
+    print((await na.async_get(NekosAPI.Types.kemonomimi)).url)
+
+    print("NekosAPI metadata:")
+    image = await na.async_get_random_image(tags=[NekosAPI.Types.girl])
+    print(image.id, image.url)
+
+    print("NekosBest:")
+    print((await nb.async_get(NekosBest.Types.hug)).url)
+
+    print("NekosBest categories:")
+    print(", ".join(list(await nb.async_get_endpoints())[:5]))
 
     print("NekosLife:")
     print((await nl.async_get(NekosLife.Types.avatar)).url)
 
-    print("WaifuPics SFW:")
-    print((await wp.async_get(WaifuPics.Types.SFW.hug)).url)
+    print("Nekosia:")
+    print((await ns.async_get(Nekosia.Types.catgirl)).url)
 
-    print("WaifuPics NSFW:")
-    print((await wp.async_get(WaifuPics.Types.NSFW.blowjob)).url)
+    print("Nekosia main categories:")
+    print(", ".join(Nekosia.MAIN_CATEGORIES[:5]))
+
+    print("WaifuIm filtered:")
+    print(
+        (
+            await wi.async_get(
+                [WaifuIm.Types.waifu],
+                excluded_tags=[WaifuIm.Types.uniform],
+                is_nsfw=WaifuIm.Nsfw.false,
+            )
+        ).url
+    )
+
+    print("WaifuIm tags:")
+    print(", ".join(WaifuIm.TAGS[:5]))
 
     print("PurrBot SFW:")
     print((await pb.async_get(PurrBot.Types.SFW.GIF.neko)).url)

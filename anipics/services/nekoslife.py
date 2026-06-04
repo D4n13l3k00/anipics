@@ -1,13 +1,9 @@
-# Copyright 2024 Daniel <D4n13l3k00@yandex.ru>.
-# SPDX-License-Identifier: AGPL-3.0
-
-from typing import NewType, Union
-
-import httpx
+from typing import TypeAlias
 
 from anipics.models import Models
+from anipics.services._http import async_get_json, get_json
 
-NekosLifeType = NewType("NekosLifeType", str)
+NekosLifeType: TypeAlias = str
 
 
 class NekosLife:
@@ -36,30 +32,26 @@ class NekosLife:
         goose: NekosLifeType = "goose"
         woof: NekosLifeType = "woof"
 
-    def get(self, query: Union[NekosLifeType, str]) -> Models.Result:
+    def get(self, query: NekosLifeType) -> Models.Result:
         """Get picture from nekos.life
 
         Args:
-            query (Union[NekosLifeType, str]): Category of image
+            query (NekosLifeType): Category of image
 
         Returns:
             Models.Result: Model with `url` parameter
         """
-        with httpx.Client() as client:
-            return Models.Result(
-                url=client.get(self.ENDPOINT.format(query=query)).json()["url"]
-            )
+        data = get_json(self.ENDPOINT.format(query=query))
+        return Models.Result(url=data["url"])
 
-    async def async_get(self, query: Union[NekosLifeType, str]) -> Models.Result:
+    async def async_get(self, query: NekosLifeType) -> Models.Result:
         """Get picture from nekos.life
 
         Args:
-            query (Union[NekosLifeType, str]): Category of image
+            query (NekosLifeType): Category of image
 
         Returns:
             Models.Result: Model with `url` parameter
         """
-        async with httpx.AsyncClient() as client:
-            return Models.Result(
-                url=(await client.get(self.ENDPOINT.format(query=query))).json()["url"]
-            )
+        data = await async_get_json(self.ENDPOINT.format(query=query))
+        return Models.Result(url=data["url"])

@@ -1,25 +1,36 @@
-[tool.poetry]
+[project]
 name = "anipics"
-version = "1.5.5"
+version = "2.0.0"
 description = "Simple module to get anime pictures"
-authors = ["Daniel <D4n13l3k00@yandex.ru>"]
+authors = [{ name = "Daniel", email = "D4n13l3k00@yandex.ru" }]
 readme = "README.md"
-license = "AGPL-3.0"
-repository = "https://github.com/D4n13l3k00/anipics"
+license = "AGPL-3.0-only"
+requires-python = ">=3.10"
+dependencies = [
+    "httpx>=0.28.1",
+    "pydantic>=2.13.4",
+]
 
-[tool.poetry.dependencies]
-python = "^3.8"
-httpx = "^0.26.0"
-beautifulsoup4 = "^4.12.3"
-pydantic = "^2.5.3"
+[project.urls]
+Repository = "https://github.com/D4n13l3k00/anipics"
 
-[tool.poetry.group.dev.dependencies]
-black = "^23.12.1"
-isort = "^5.13.2"
-ruff = "^0.1.14"
-pytest = "^7.4.4"
-pytest-asyncio = "^0.23.3"
+[dependency-groups]
+dev = [
+    "black>=26.5.1",
+    "isort>=8.0.1",
+    "pytest>=9.0.3",
+    "pytest-asyncio>=1.4.0",
+    "ruff>=0.15.15",
+]
+
+[tool.pytest.ini_options]
+markers = [
+    "live: tests that call external services",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["anipics"]
 
 [build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+requires = ["hatchling"]
+build-backend = "hatchling.build"
