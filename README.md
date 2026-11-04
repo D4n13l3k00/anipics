@@ -14,6 +14,8 @@
 [GitHub Releases](https://github.com/D4n13l3k00/anipics/releases) |
 [Examples](/examples)
 
+**English** | [Русский](README.ru.md)
+
 </div>
 
 ## &#127800; About
@@ -36,25 +38,25 @@ pip install anipics
 ## &#128640; Quick Start
 
 ```python
-from anipics import NekosAPI, WaifuIm
+from anipics import NekosAPI, NekosBest
 
-waifu = WaifuIm().get(WaifuIm.Types.waifu)
+waifu = NekosBest().get(NekosBest.Types.waifu)
 print(waifu.url)
 
 image = NekosAPI().get_random_image(tags=[NekosAPI.Types.girl])
 print(image.id, image.url)
 ```
 
-Async usage follows the same shape:
+Async usage uses a separate client with the same method names:
 
 ```python
 import asyncio
 
-from anipics import Nekosia
+from anipics import AsyncNekosia
 
 
 async def main() -> None:
-    image = await Nekosia().async_get(Nekosia.Types.catgirl)
+    image = await AsyncNekosia().get(AsyncNekosia.Types.catgirl)
     print(image.url)
 
 
@@ -72,7 +74,7 @@ More examples live in [`examples/`](/examples). &#10024;
 | `Nekosia` | &#127991;&#65039; Tag/category based anime images | Documented main categories and tag lookup |
 | `NekosLife` | &#127769; Classic neko/waifu/avatar style endpoints | Simple URL result API |
 | `PurrBot` | &#9889; SFW and NSFW gif/image endpoints | v2 API paths |
-| `WaifuIm` | &#127872; Waifu images with include/exclude filters | Tag lookup and NSFW filter options |
+| `WaifuBest` | &#127872; Waifu images with include/exclude filters | Tag lookup and SFW/NSFW selection |
 
 ## &#10024; Typed Metadata
 
@@ -90,7 +92,9 @@ print(result.url)
 ```python
 from anipics import NekosAPI
 
-image = NekosAPI().get_random_image(tags=[NekosAPI.Types.neko])
+image = NekosAPI().get_random_image(
+    tags=[NekosAPI.Types.catgirl], rating=NekosAPI.Ratings.safe
+)
 
 print(image.id)
 print(image.url)

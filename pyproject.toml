@@ -1,6 +1,6 @@
 [project]
 name = "anipics"
-version = "2.0.0"
+version = "2.1.0"
 description = "Simple module to get anime pictures"
 authors = [{ name = "Daniel", email = "D4n13l3k00@yandex.ru" }]
 readme = "README.md"

@@ -1,16 +1,30 @@
 __all__ = [
-    "EscapedQuery",
+    "AsyncNekosAPI",
+    "AsyncNekosBest",
+    "AsyncNekosia",
+    "AsyncNekosLife",
+    "AsyncPurrBot",
+    "AsyncWaifuBest",
     "NekosAPI",
+    "NekosAPIType",
+    "NekosAPIRating",
     "NekosBest",
+    "NekosBestType",
     "NekosLife",
+    "NekosLifeType",
     "Nekosia",
+    "NekosiaType",
+    "NekosiaTag",
     "PurrBot",
-    "WaifuIm",
+    "PurrBotType",
+    "WaifuBest",
+    "WaifuBestType",
+    "WaifuBestNsfw",
 ]
 
-from .nekosapi import EscapedQuery, NekosAPI
-from .nekosbest import NekosBest
-from .nekosia import Nekosia
-from .nekoslife import NekosLife
-from .purrbot import PurrBot
-from .waifuim import WaifuIm
+from .nekosapi import AsyncNekosAPI, NekosAPI, NekosAPIRating, NekosAPIType
+from .nekosbest import AsyncNekosBest, NekosBest, NekosBestType
+from .nekosia import AsyncNekosia, Nekosia, NekosiaTag, NekosiaType
+from .nekoslife import AsyncNekosLife, NekosLife, NekosLifeType
+from .purrbot import AsyncPurrBot, PurrBot, PurrBotType
+from .waifubest import AsyncWaifuBest, WaifuBest, WaifuBestNsfw, WaifuBestType

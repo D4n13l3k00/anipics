@@ -1,6 +1,9 @@
 from collections.abc import Sequence
-from typing import Any, TypeAlias
+from typing import Any
 
+from anipics._catalogs.nekosapi import NekosAPIRating, NekosAPIType
+from anipics._catalogs.nekosapi import Ratings as NekosAPIRatings
+from anipics._catalogs.nekosapi import Types as NekosAPITypes
 from anipics.models import Models
 from anipics.services._http import (
     async_get_json,
@@ -9,186 +12,191 @@ from anipics.services._http import (
     normalize_list,
 )
 
-NekosAPIType: TypeAlias = str
 
+class _NekosAPI:
+    BASE_URL = "https://api.nekosapi.com/v5"
 
-class EscapedQuery:
-    ESCAPED_CHARS = set(r"[]{}()*?|")
+    Types = NekosAPITypes
 
-    def __init__(self, value: str) -> None:
-        self.value = value
+    Ratings = NekosAPIRatings
 
-    def __str__(self) -> str:
-        return "".join(
-            f"\\{char}" if char in self.ESCAPED_CHARS else char for char in self.value
+    @staticmethod
+    def _image_params(
+        tags: Sequence[NekosAPIType | str] | None,
+        rating: NekosAPIRating | Sequence[NekosAPIRating] | None,
+        artists: Sequence[str] | None,
+        *,
+        limit: int | None = None,
+        offset: int | None = None,
+    ) -> dict[str, Any]:
+        return compact_params(
+            limit=limit,
+            offset=offset,
+            tag=tags,
+            rating=normalize_list(rating),
+            artist=artists,
+        )
+
+    @staticmethod
+    def _tag_params(
+        limit: int,
+        offset: int,
+        name: str | None,
+        is_nsfw: bool | None,
+    ) -> dict[str, Any]:
+        return compact_params(
+            limit=limit,
+            offset=offset,
+            name=name,
+            is_nsfw=is_nsfw,
         )
 
 
-class NekosAPI:
-    BASE_URL = "https://api.nekosapi.com/v4"
-
-    class Types:
-        animal_ears: NekosAPIType = "animal_ears"
-        catgirl: NekosAPIType = "catgirl"
-        foxgirl: NekosAPIType = "foxgirl"
-        girl: NekosAPIType = "girl"
-        kemonomimi: NekosAPIType = "kemonomimi"
-        maid: NekosAPIType = "maid"
-        neko: NekosAPIType = "neko"
-        waifu: NekosAPIType = "waifu"
-
-    class Ratings:
-        safe = "safe"
-        suggestive = "suggestive"
-        borderline = "borderline"
-
+class NekosAPI(_NekosAPI):
     def _get_json(self, path: str, params: dict[str, Any] | None = None) -> Any:
         return get_json(f"{self.BASE_URL}{path}", params=params)
 
-    async def _async_get_json(
-        self, path: str, params: dict[str, Any] | None = None
-    ) -> Any:
-        return await async_get_json(f"{self.BASE_URL}{path}", params=params)
-
-    def get(self, query: NekosAPIType | None = None) -> Models.Result:
+    def get(self, query: NekosAPIType | str | None = None) -> Models.Result:
         """Get one random picture from nekosapi.com."""
         image = self.get_random_image(tags=normalize_list(query))
-        return Models.Result(url=image["url"])
+        return Models.Result(url=image.url)
 
     def get_random_image(
         self,
-        tags: Sequence[str] | None = None,
-        without_tags: Sequence[str] | None = None,
-        rating: str | None = None,
-        artist_name: str | None = None,
+        tags: Sequence[NekosAPIType | str] | None = None,
+        rating: NekosAPIRating | Sequence[NekosAPIRating] | None = None,
+        artists: Sequence[str] | None = None,
     ) -> Models.NekosAPIImage:
-        """Get one random image with metadata."""
-        return self.get_random_images(
-            limit=1,
-            tags=tags,
-            without_tags=without_tags,
-            rating=rating,
-            artist_name=artist_name,
-        )[0]
+        """Get one image, matching any supplied tag, artist, and rating.
 
-    def get_random_images(
-        self,
-        limit: int = 10,
-        tags: Sequence[str] | None = None,
-        without_tags: Sequence[str] | None = None,
-        rating: str | None = None,
-        artist_name: str | None = None,
-    ) -> list[Models.NekosAPIImage]:
-        """Get random images with metadata. NekosAPI supports up to 25."""
-        images = self._get_json(
-            "/images/random",
-            params=compact_params(
-                limit=limit,
-                tags=tags,
-                without_tags=without_tags,
-                rating=rating,
-                artist_name=artist_name,
-            ),
+        Tags accept names or IDs; names and artists are case-insensitive.
+        Each filter accepts alternatives (OR), with up to five tags/artists.
+        Different filters combine with AND. HTTP errors propagate unchanged.
+        """
+        return Models.NekosAPIImage.model_validate(
+            self._get_json(
+                "/images/random",
+                params=self._image_params(tags, rating, artists),
+            )
         )
-        return [Models.NekosAPIImage.model_validate(image) for image in images]
 
-    def get_image_by_id(self, image_id: int) -> Models.NekosAPIImage:
-        """Get one image by ID."""
+    def get_image_by_id(self, image_id: str) -> Models.NekosAPIImage:
+        """Get one image by its v5 string ID."""
         return Models.NekosAPIImage.model_validate(
             self._get_json(f"/images/{image_id}")
         )
 
     def get_images(
         self,
-        limit: int = 100,
+        limit: int = 25,
         offset: int = 0,
-        tags: Sequence[str] | None = None,
-        without_tags: Sequence[str] | None = None,
-        rating: str | None = None,
-        artist_name: str | None = None,
-    ) -> list[Models.NekosAPIImage]:
-        """Search/browse images with filters."""
-        data = self._get_json(
-            "/images",
-            params=compact_params(
-                limit=limit,
-                offset=offset,
-                tags=tags,
-                without_tags=without_tags,
-                rating=rating,
-                artist_name=artist_name,
-            ),
-        )
-        return [Models.NekosAPIImage.model_validate(image) for image in data["items"]]
+        tags: Sequence[NekosAPIType | str] | None = None,
+        rating: NekosAPIRating | Sequence[NekosAPIRating] | None = None,
+        artists: Sequence[str] | None = None,
+    ) -> Models.NekosAPIImagesPage:
+        """Get an image page and total, using the random-image filter semantics.
 
-    async def async_get(self, query: NekosAPIType | None = None) -> Models.Result:
+        The API supports up to 100 items per page.
+        """
+        return Models.NekosAPIImagesPage.model_validate(
+            self._get_json(
+                "/images",
+                params=self._image_params(
+                    tags, rating, artists, limit=limit, offset=offset
+                ),
+            )
+        )
+
+    def get_tags(
+        self,
+        limit: int = 25,
+        offset: int = 0,
+        name: str | None = None,
+        is_nsfw: bool | None = None,
+    ) -> Models.NekosAPITagsPage:
+        """Get a name-ordered tag page and total, optionally filtering by substring.
+
+        The API supports up to 100 items per page. Use is_nsfw to filter
+        explicitly for NSFW or SFW tags.
+        """
+        return Models.NekosAPITagsPage.model_validate(
+            self._get_json(
+                "/tags",
+                params=self._tag_params(limit, offset, name, is_nsfw),
+            )
+        )
+
+
+class AsyncNekosAPI(_NekosAPI):
+    async def _get_json(self, path: str, params: dict[str, Any] | None = None) -> Any:
+        return await async_get_json(f"{self.BASE_URL}{path}", params=params)
+
+    async def get(self, query: NekosAPIType | str | None = None) -> Models.Result:
         """Get one random picture from nekosapi.com."""
-        image = await self.async_get_random_image(tags=normalize_list(query))
-        return Models.Result(url=image["url"])
+        image = await self.get_random_image(tags=normalize_list(query))
+        return Models.Result(url=image.url)
 
-    async def async_get_random_image(
+    async def get_random_image(
         self,
-        tags: Sequence[str] | None = None,
-        without_tags: Sequence[str] | None = None,
-        rating: str | None = None,
-        artist_name: str | None = None,
+        tags: Sequence[NekosAPIType | str] | None = None,
+        rating: NekosAPIRating | Sequence[NekosAPIRating] | None = None,
+        artists: Sequence[str] | None = None,
     ) -> Models.NekosAPIImage:
-        """Get one random image with metadata."""
-        images = await self.async_get_random_images(
-            limit=1,
-            tags=tags,
-            without_tags=without_tags,
-            rating=rating,
-            artist_name=artist_name,
-        )
-        return images[0]
+        """Get one image, matching any supplied tag, artist, and rating.
 
-    async def async_get_random_images(
-        self,
-        limit: int = 10,
-        tags: Sequence[str] | None = None,
-        without_tags: Sequence[str] | None = None,
-        rating: str | None = None,
-        artist_name: str | None = None,
-    ) -> list[Models.NekosAPIImage]:
-        """Get random images with metadata. NekosAPI supports up to 25."""
-        images = await self._async_get_json(
-            "/images/random",
-            params=compact_params(
-                limit=limit,
-                tags=tags,
-                without_tags=without_tags,
-                rating=rating,
-                artist_name=artist_name,
-            ),
-        )
-        return [Models.NekosAPIImage.model_validate(image) for image in images]
-
-    async def async_get_image_by_id(self, image_id: int) -> Models.NekosAPIImage:
-        """Get one image by ID."""
+        Tags accept names or IDs; names and artists are case-insensitive.
+        Each filter accepts alternatives (OR), with up to five tags/artists.
+        Different filters combine with AND. HTTP errors propagate unchanged.
+        """
         return Models.NekosAPIImage.model_validate(
-            await self._async_get_json(f"/images/{image_id}")
+            await self._get_json(
+                "/images/random",
+                params=self._image_params(tags, rating, artists),
+            )
         )
 
-    async def async_get_images(
-        self,
-        limit: int = 100,
-        offset: int = 0,
-        tags: Sequence[str] | None = None,
-        without_tags: Sequence[str] | None = None,
-        rating: str | None = None,
-        artist_name: str | None = None,
-    ) -> list[Models.NekosAPIImage]:
-        """Search/browse images with filters."""
-        data = await self._async_get_json(
-            "/images",
-            params=compact_params(
-                limit=limit,
-                offset=offset,
-                tags=tags,
-                without_tags=without_tags,
-                rating=rating,
-                artist_name=artist_name,
-            ),
+    async def get_image_by_id(self, image_id: str) -> Models.NekosAPIImage:
+        """Asynchronously get one image by its v5 string ID."""
+        return Models.NekosAPIImage.model_validate(
+            await self._get_json(f"/images/{image_id}")
         )
-        return [Models.NekosAPIImage.model_validate(image) for image in data["items"]]
+
+    async def get_images(
+        self,
+        limit: int = 25,
+        offset: int = 0,
+        tags: Sequence[NekosAPIType | str] | None = None,
+        rating: NekosAPIRating | Sequence[NekosAPIRating] | None = None,
+        artists: Sequence[str] | None = None,
+    ) -> Models.NekosAPIImagesPage:
+        """Get an image page and total, using the random-image filter semantics.
+
+        The API supports up to 100 items per page.
+        """
+        return Models.NekosAPIImagesPage.model_validate(
+            await self._get_json(
+                "/images",
+                params=self._image_params(
+                    tags, rating, artists, limit=limit, offset=offset
+                ),
+            )
+        )
+
+    async def get_tags(
+        self,
+        limit: int = 25,
+        offset: int = 0,
+        name: str | None = None,
+        is_nsfw: bool | None = None,
+    ) -> Models.NekosAPITagsPage:
+        """Get a name-ordered tag page and total, optionally filtering by substring.
+
+        The API supports up to 100 items per page. Use is_nsfw to filter
+        explicitly for NSFW or SFW tags.
+        """
+        return Models.NekosAPITagsPage.model_validate(
+            await self._get_json(
+                "/tags",
+                params=self._tag_params(limit, offset, name, is_nsfw),
+            )
+        )

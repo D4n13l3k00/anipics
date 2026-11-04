@@ -1,24 +1,52 @@
 __author__ = "Daniel <D4n13l3k00@yandex.ru>"
-__version__ = "2.0.0"
+__version__ = "2.1.0"
 
 __all__ = [
-    "EscapedQuery",
+    "AsyncNekosAPI",
+    "AsyncNekosBest",
+    "AsyncNekosia",
+    "AsyncNekosLife",
+    "AsyncPurrBot",
+    "AsyncWaifuBest",
     "NekosAPI",
+    "NekosAPIType",
+    "NekosAPIRating",
     "NekosBest",
+    "NekosBestType",
     "NekosLife",
+    "NekosLifeType",
     "Nekosia",
+    "NekosiaType",
+    "NekosiaTag",
     "PurrBot",
-    "WaifuIm",
+    "PurrBotType",
+    "WaifuBest",
+    "WaifuBestType",
+    "WaifuBestNsfw",
     "Models",
 ]
 
 from .models import Models
 from .services import (
-    EscapedQuery,
+    AsyncNekosAPI,
+    AsyncNekosBest,
+    AsyncNekosia,
+    AsyncNekosLife,
+    AsyncPurrBot,
+    AsyncWaifuBest,
     NekosAPI,
+    NekosAPIRating,
+    NekosAPIType,
     NekosBest,
+    NekosBestType,
     Nekosia,
+    NekosiaTag,
+    NekosiaType,
     NekosLife,
+    NekosLifeType,
     PurrBot,
-    WaifuIm,
+    PurrBotType,
+    WaifuBest,
+    WaifuBestNsfw,
+    WaifuBestType,
 )

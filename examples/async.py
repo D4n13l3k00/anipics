@@ -1,57 +1,71 @@
 import asyncio
 
-from anipics import NekosAPI, NekosBest, Nekosia, NekosLife, PurrBot, WaifuIm
+from anipics import (
+    AsyncNekosAPI,
+    AsyncNekosBest,
+    AsyncNekosia,
+    AsyncNekosLife,
+    AsyncPurrBot,
+    AsyncWaifuBest,
+)
 
 
 async def main():
-    na = NekosAPI()
-    nb = NekosBest()
-    nl = NekosLife()
-    ns = Nekosia()
-    pb = PurrBot()
-    wi = WaifuIm()
+    na = AsyncNekosAPI()
+    nb = AsyncNekosBest()
+    nl = AsyncNekosLife()
+    ns = AsyncNekosia()
+    pb = AsyncPurrBot()
 
     print("NekosAPI random:")
-    print((await na.async_get(NekosAPI.Types.kemonomimi)).url)
+    print((await na.get(AsyncNekosAPI.Types.kemonomimi)).url)
 
     print("NekosAPI metadata:")
-    image = await na.async_get_random_image(tags=[NekosAPI.Types.girl])
+    image = await na.get_random_image(tags=[AsyncNekosAPI.Types.girl])
     print(image.id, image.url)
 
     print("NekosBest:")
-    print((await nb.async_get(NekosBest.Types.hug)).url)
+    print((await nb.get(AsyncNekosBest.Types.hug)).url)
 
     print("NekosBest categories:")
-    print(", ".join(list(await nb.async_get_endpoints())[:5]))
+    print(", ".join(list(await nb.get_endpoints())[:5]))
 
     print("NekosLife:")
-    print((await nl.async_get(NekosLife.Types.avatar)).url)
+    print((await nl.get(AsyncNekosLife.Types.avatar)).url)
 
     print("Nekosia:")
-    print((await ns.async_get(Nekosia.Types.catgirl)).url)
+    print((await ns.get(AsyncNekosia.Types.catgirl)).url)
 
     print("Nekosia main categories:")
-    print(", ".join(Nekosia.MAIN_CATEGORIES[:5]))
+    print(", ".join(AsyncNekosia.MAIN_CATEGORIES[:5]))
 
-    print("WaifuIm filtered:")
+    print("Nekosia tag search:")
     print(
         (
-            await wi.async_get(
-                [WaifuIm.Types.waifu],
-                excluded_tags=[WaifuIm.Types.uniform],
-                is_nsfw=WaifuIm.Nsfw.false,
+            await ns.get(
+                AsyncNekosia.Types.nothing, additional_tags=["catgirl", "blue-eyes"]
             )
         ).url
     )
 
-    print("WaifuIm tags:")
-    print(", ".join(WaifuIm.TAGS[:5]))
+    print("WaifuBest filtered:")
+    wb = AsyncWaifuBest()
+    print(
+        (
+            await wb.get(
+                AsyncWaifuBest.Types.waifu, excluded_tags=[AsyncWaifuBest.Types.maid]
+            )
+        ).url
+    )
+
+    print("WaifuBest tags:")
+    print(", ".join(tag["slug"] for tag in await wb.get_tags()))
 
     print("PurrBot SFW:")
-    print((await pb.async_get(PurrBot.Types.SFW.GIF.neko)).url)
+    print((await pb.get(AsyncPurrBot.Types.SFW.GIF.neko)).url)
 
     print("PurrBot NSFW:")
-    print((await pb.async_get(PurrBot.Types.NSFW.GIF.anal)).url)
+    print((await pb.get(AsyncPurrBot.Types.NSFW.GIF.anal)).url)
 
 
 if __name__ == "__main__":

@@ -1,4 +1,4 @@
-from anipics import NekosAPI, NekosBest, Nekosia, NekosLife, PurrBot, WaifuIm
+from anipics import NekosAPI, NekosBest, Nekosia, NekosLife, PurrBot, WaifuBest
 
 
 def main():
@@ -7,7 +7,6 @@ def main():
     nl = NekosLife()
     ns = Nekosia()
     pb = PurrBot()
-    wi = WaifuIm()
 
     print("NekosAPI random:")
     print(na.get(NekosAPI.Types.kemonomimi).url)
@@ -31,17 +30,15 @@ def main():
     print("Nekosia main categories:")
     print(", ".join(Nekosia.MAIN_CATEGORIES[:5]))
 
-    print("WaifuIm filtered:")
-    print(
-        wi.get(
-            [WaifuIm.Types.waifu],
-            excluded_tags=[WaifuIm.Types.uniform],
-            is_nsfw=WaifuIm.Nsfw.false,
-        ).url
-    )
+    print("Nekosia tag search:")
+    print(ns.get(Nekosia.Types.nothing, additional_tags=["catgirl", "blue-eyes"]).url)
 
-    print("WaifuIm tags:")
-    print(", ".join(WaifuIm.TAGS[:5]))
+    print("WaifuBest filtered:")
+    wb = WaifuBest()
+    print(wb.get(WaifuBest.Types.waifu, excluded_tags=[WaifuBest.Types.maid]).url)
+
+    print("WaifuBest tags:")
+    print(", ".join(tag["slug"] for tag in wb.get_tags()))
 
     print("PurrBot SFW:")
     print(pb.get(PurrBot.Types.SFW.GIF.neko).url)
